@@ -5,6 +5,8 @@ const { DB_HOST, PORT = 3000 } = process.env;
 
 // Інший код, де використовується DB_HOST
 
+mongoose.set("strictQuery", true);
+
 mongoose
   .connect(DB_HOST)
   .then(() => {

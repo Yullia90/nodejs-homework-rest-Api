@@ -5,6 +5,9 @@ const moment = require("moment");
 const fs = require("fs/promises");
 const dotenv = require("dotenv");
 
+const mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+
 const contactsRouter = require("./routes/api/contacts");
 
 dotenv.config();
@@ -26,6 +29,7 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+
 
 app.use("/api/contacts", contactsRouter);
 
