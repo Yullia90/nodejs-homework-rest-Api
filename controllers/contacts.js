@@ -1,4 +1,3 @@
-// const contacts = require("../models/contacts");
 const { Contact } = require("../models/Contact");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
@@ -9,11 +8,11 @@ const getAll = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-  const id = req.params.contactId;
+  const contactId = req.params.contactId;
   // const result = await Contact.findOne({ _id: contactId });
-  const result = await Contact.findById(id);
+  const result = await Contact.findById(contactId);
   if (!result) {
-    throw HttpError(404, `Contact with id=${id} not found`);
+    throw HttpError(404, `Contact with id=${contactId} not found`);
   }
   res.status(200).json(result);
 };
@@ -25,7 +24,7 @@ const add = async (req, res) => {
 
 const deleteById = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findByIdAndRemove(contactId);
+  const result = await Contact.findByIdAndDelete(contactId);
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -45,16 +44,36 @@ const updateById = async (req, res) => {
   res.status(200).json(result);
 };
 
-const updateFavorite = async (req, res) => {
+// const updateFavorite = async (req, res) => {
+//   const { contactId } = req.params;
+//   const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+//     new: true,
+//   });
+
+//   if (!result) {
+//     throw HttpError(404, "Not found");
+//   }
+//   res.json(result);
+// };
+
+const updateStatusContact = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const { favorite } = req.body;
+
+  if (favorite === undefined) {
+    throw HttpError(400, "missing fields");
+  }
+
+  const result = await Contact.findByIdAndUpdate(
+    contactId,
+    { favorite },
+    { new: true }
+  );
 
   if (!result) {
     throw HttpError(404, "Not found");
   }
-  res.json(result);
+  res.status(200).json(result);
 };
 
 module.exports = {
@@ -63,5 +82,6 @@ module.exports = {
   add: ctrlWrapper(add),
   updateById: ctrlWrapper(updateById),
   deleteById: ctrlWrapper(deleteById),
-  updateFavorite: ctrlWrapper(updateFavorite),
+  // updateFavorite: ctrlWrapper(updateFavorite),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
 };
