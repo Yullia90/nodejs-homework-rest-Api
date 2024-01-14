@@ -1,8 +1,9 @@
 const multer = require("multer");
 const path = require("path");
-const { HttpError } = require("../helpers/index");
+//const { HttpError } = require("../helpers/index");
 
 const destination = path.resolve("temp");
+
 const storage = multer.diskStorage({
     destination,
     filename: (req, file, callback) => {
@@ -16,16 +17,18 @@ const limits = {
     fileSize: 1024 * 1024 * 5,
 };
 
-const fileFilter = (req, file, callback) => {
-    const extention = req.originalname.split(".").pop();
-    if (extention === "exe") {
-        callback(HttpError(400, ".exe not valid extention"));
-    }
-}
+// const fileFilter = (req, file, callback) => {
+//     const extention = req.originalname.split(".").pop();
+//     if (extention === "exe") {
+//         callback(HttpError(400, ".exe not valid extention"));
+//     } else {
+//         callback(null, true);
+//     }
+// }
 
 const upload = multer({
-    storage,limits,fileFilter,
+    storage, limits,
+    // fileFilter,
 })
 
 module.exports = upload;
-//
