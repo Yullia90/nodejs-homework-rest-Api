@@ -6,7 +6,7 @@ const ctrl = require("../../controllers/contacts");
 
 const { validateBody, isValidId } = require("../../middlewares/index");
 
-const { schemas } = require("../../models/Contact");
+const { schemas } = require("../../models/contact");
 
 router.get("/", ctrl.getAll);
 
