@@ -7,7 +7,7 @@ const {
   validateBody,
   isValidId,
   authenticate,
-} = require("../../middlewares/index");
+} = require("../../middlewares");
 const { schemas } = require("../../models/contact");
 
 router.get("/", authenticate, ctrl.getAllContacts);
